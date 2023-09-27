@@ -5,6 +5,21 @@ export interface FoodNutrient {
     unitName: string;
     derivationCode: string;
     derivationDescription: string;
+    dataPoints: number;
+    derivationId: number;
+    foodNutrientId: number;
+    foodNutrientSourceCode: string;
+    foodNutrientSourceDescription: string;
+    foodNutrientSourceId: number;
+    indentLevel: number;
+    max: number;
+    median: number;
+    min: number;
+    nutrientId: number;
+    nutrientName: string;
+    nutrientNumber: string;
+    rank: number;
+    value: number;
 }
 
 export interface Food {

@@ -1,7 +1,7 @@
 import React from 'react';
 import CustomInput from "@/app/blocks/Input/CustomInput";
 import {useAppDispatch, useAppSelector} from "@/app/utils/hooks/redux";
-import { changeProductName} from "@/app/reduxTK/redusers/ProductReducer/ProductSlice";
+import {addProduct, changeProductName} from "@/app/reduxTK/redusers/ProductReducer/ProductSlice";
 import StandardButton from "@/app/ui/Button/StandartButton";
 import {useSearchProductsByNameQuery} from "@/app/reduxTK/redusers/ProductSearch/ProductSearch";
 import {Food} from "@/app/utils/models";
@@ -24,15 +24,20 @@ const ProductInput = () => {
 
     const onClickOnButton = () => {
         console.log(productName, weight)
-        if (productName !== '' && weight !== '') {
+        if (  weight !== '' && data && active) {
 
             dispatch(changeProductName(''));
             setWeight('');
+            dispatch(addProduct({id: active, product: data.foods.find((product: Food) => product.fdcId === active) as Food, weight: Number(weight) }))
         } else if (Number(weight) < 0) {
             alert('Вес не может быть отрицательным')
-        } else {
+        }else if(data && !active){
+            alert('Пожалуйста, выберите продукт')
+        }
+        else {
             alert('Пожалуйста, введите продукт или вес')
         }
+
     }
 const    onSelectProduct =(id: number)=>{
          setActive(id);
