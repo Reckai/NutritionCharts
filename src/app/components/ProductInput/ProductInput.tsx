@@ -1,7 +1,7 @@
 import React from 'react';
 import CustomInput from "@/app/blocks/Input/CustomInput";
 import {useAppDispatch, useAppSelector} from "@/app/utils/hooks/redux";
-import { changeProductName, changeProductID} from "@/app/reduxTK/redusers/ProductReducer/ProductSlice";
+import { changeProductName} from "@/app/reduxTK/redusers/ProductReducer/ProductSlice";
 import StandardButton from "@/app/ui/Button/StandartButton";
 import {useSearchProductsByNameQuery} from "@/app/reduxTK/redusers/ProductSearch/ProductSearch";
 import {Food} from "@/app/utils/models";
@@ -22,7 +22,7 @@ const ProductInput = () => {
     }
 
 
-    const onClickonButton = () => {
+    const onClickOnButton = () => {
         console.log(productName, weight)
         if (productName !== '' && weight !== '') {
 
@@ -36,7 +36,6 @@ const ProductInput = () => {
     }
 const    onSelectProduct =(id: number)=>{
          setActive(id);
-        dispatch(changeProductID(id));
     }
     const [asd, setAsd] = React.useState<string>('grid-cols-4')
     React.useEffect(() => {
@@ -103,7 +102,7 @@ const    onSelectProduct =(id: number)=>{
                     placeholder='Введите вес'
                     changeHandlerFunction={chaneWeightHandler}
                 />
-                <StandardButton onClick={onClickonButton} params=" px-5 ml-3 py-4 w-48 px-12 h-14 ">Подтвердить</StandardButton>
+                <StandardButton onClick={onClickOnButton} params=" px-5 ml-3 py-4 w-48 px-12 h-14 ">Подтвердить</StandardButton>
 
             </div>
 

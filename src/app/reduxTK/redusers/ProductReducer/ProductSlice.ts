@@ -1,29 +1,33 @@
 
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {Food} from "@/app/utils/models";
 type productSliceType = {
         id: number;
+        products: Food[]
+        weight: number;
 }
-interface Iproducts {
-    pruductID: number;
-    productName: string | undefined;
+interface addedProducts {
+    TotalCallories: number;
+    TotalWeight: number;
 
 }
+interface Iproducts {
+    productName: string | undefined;
+    productList: productSliceType[];
+}
 const initialState: Iproducts = {
-    pruductID: 0,
+    productList: [],
     productName: '',
 }
 
 export const productSlice = createSlice({
     name: 'products', initialState, reducers: {
-        changeProductID(state, action: PayloadAction<number>) {
-            state.pruductID = action.payload;
-            console.log(state.pruductID)
-        },
+
         changeProductName(state, action: PayloadAction<string>) {
             state.productName = action.payload;
         },
 
     }
 });
-export const { changeProductID, changeProductName} = productSlice.actions;
+export const {  changeProductName} = productSlice.actions;
 export default productSlice.reducer;
