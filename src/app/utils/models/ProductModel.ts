@@ -12,9 +12,9 @@ export interface FoodNutrient {
     foodNutrientSourceDescription: string;
     foodNutrientSourceId: number;
     indentLevel: number;
-    max: number;
-    median: number;
-    min: number;
+    max?: number;
+    median?: number;
+    min?: number;
     nutrientId: number;
     nutrientName: string;
     nutrientNumber: string;

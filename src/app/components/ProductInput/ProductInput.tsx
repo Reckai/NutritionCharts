@@ -89,7 +89,7 @@ const    onSelectProduct =(id: number)=>{
                 {
                     data && data.foods.map((product: Food ) => {
                         return(<button
-                                key={product.fdcId}
+                                key={product.fdcId }
                                 onClick={() => onSelectProduct(product.fdcId)}
                                 className={` ${product.fdcId === active ? ' bg-call-to-action text-white shadow-md shadow-amber-300' : 'bg-white'}    m-2   rounded-[8px] p-1`}>
                                 <div className="">

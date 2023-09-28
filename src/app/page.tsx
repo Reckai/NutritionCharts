@@ -6,14 +6,14 @@ import ProductInput from "@/app/components/ProductInput/ProductInput";
 
 import {useAppDispatch, useAppSelector} from "@/app/utils/hooks/redux";
 import GenderAndAgeSelect from "@/app/components/GenderAndAgeSelect/GenderAndAgeSelect";
-import {deleteProduct} from "@/app/reduxTK/redusers/ProductReducer/ProductSlice";
-import {allowedDisplayValues} from "next/dist/compiled/@next/font/dist/constants";
+import {deleteProduct, calculateNutrients} from "@/app/reduxTK/redusers/ProductReducer/ProductSlice";
+import StandartButton from "@/app/ui/Button/StandartButton";
 
 export default function Home() {
 
     const dispatch = useAppDispatch();
     const user = useAppSelector(state => state.user);
-    const {productList, TotalProperties, productName} = useAppSelector(state => state.products);
+    const {productList, TotalProperties, Nutrients, } = useAppSelector(state => state.products);
 
     return (<main   className='flex'>
             <div  className='flex flex-col'>
@@ -38,7 +38,7 @@ export default function Home() {
                 <section
                     className=' ml-9   bg-white rounded-[20px] w-[206px]  px-[50px]  my-2.5  '>
                     {productList.map((product) => {
-                        return (<div key={product.id} className='flex place-content-around items-center gap-1  my-2.5'>
+                        return (<div key={product.id + Math.random()} className='flex place-content-around items-center gap-1  my-2.5'>
                                 <h1 className='text-black text-base'>
                                     {product.product.description.split(',')[0] }
                                 </h1>
@@ -58,12 +58,32 @@ export default function Home() {
                         )
                     })}
                 </section>
+                <StandartButton params={'Primary'}  onClick={()=>dispatch(calculateNutrients())}> asdasd</StandartButton>
+                <section
+                    className=' ml-9   bg-white rounded-[20px] w-[206px]  px-[50px]  my-2.5  '>
+                    {Nutrients.map((nutrient) => {
+                        console.log(nutrient.id)
+                        return (<div key={nutrient.id} className='flex place-content-around items-center gap-1  my-2.5'>
+                                <h1 className='text-black text-base'>
+                                    {nutrient.name }
+                                </h1>
+                                <div className='flex items-center'> {/* Обертка для веса и "г" */}
+                                    <h1 className='text-base text-black mr-1'>
+                                        {" " + nutrient.value}</h1>
+                                    <span className='text-base text-black'>{nutrient.unitName}</span>
+                                </div>
+
+                            </div>
+
+                        )
+                    })}
+                </section>
                 <iframe
                     className="rounded-lg"
                     src="https://open.spotify.com/embed/track/6jia2kwUEpsupSDRKy8DnM?utm_source=generator&theme=0"
                     width="100%"
                     height="352"
-                    frameBorder="0"
+
                     allowFullScreen
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                     loading="lazy"

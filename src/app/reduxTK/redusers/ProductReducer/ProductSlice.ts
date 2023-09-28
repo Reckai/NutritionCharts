@@ -1,59 +1,113 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Food} from "@/app/utils/models";
+import {log} from "util";
 
 type productSliceType = {
+    id: number; product: Food; weight: number;
+}
+const nutrientNames = [
+    "Iron, Fe",
+    "Magnesium, Mg",
+    "Phosphorus, P",
+    "Potassium, K",
+    "Cholesterol",
+    "Sodium, Na",
+    "Zinc, Zn",
+    "Copper, Cu",
+    "Nitrogen",
+    "Total lipid (fat)",
+    "Manganese, Mn",
+    "Ash",
+    "Water",
+    "Calcium, Ca",
+    "Protein",
+    "Carbohydrate, by difference"
+];
+
+
+
+type nutrientsType = {
+    name: string;
+    value: number;
+    unitName: string;
     id: number;
-    product: Food;
-    weight: number;
 }
 
 interface Iproducts {
     productName: string | undefined;
     productList: productSliceType[];
     TotalProperties: {
-        TotalCallories: number;
-        TotalWeight: number;
-        [key: string]: number;
+        TotalCallories: number; TotalWeight: number; [key: string]: number;
     }
+    Nutrients: nutrientsType[]
 
 }
 
 const initialState: Iproducts = {
-    productList: [],
-    productName: '',
+    productList: [], productName: '',
     TotalProperties: {
-        TotalCallories: 0,
-        TotalWeight: 0,
+        TotalCallories: 0, TotalWeight: 0,
     }
+    , Nutrients: []
 }
 
 export const productSlice = createSlice({
     name: 'products', initialState, reducers: {
         addProduct(state, action: PayloadAction<productSliceType>) {
             state.productList.push({
-                id: action.payload.id,
-                product: action.payload.product,
-                weight: action.payload.weight
+                id: action.payload.id, product: action.payload.product, weight: action.payload.weight
             });
 
-            let neededProduct = action.payload.product.foodNutrients.find((nutrient)=> nutrient.nutrientName.includes('Energy') && nutrient.unitName.includes('KCAL'))
-            console.log(neededProduct)
-                state.TotalProperties.TotalCallories += neededProduct? neededProduct.value * action.payload.weight / 100 : 0;
-                state.TotalProperties.TotalWeight += action.payload.weight;
+            let neededProduct = action.payload.product.foodNutrients.find((nutrient) => nutrient.nutrientName.includes('Energy') && nutrient.unitName.includes('KCAL'))
+
+            state.TotalProperties.TotalCallories += Math.floor(neededProduct ? neededProduct.value * action.payload.weight / 100 : 0);
+            state.TotalProperties.TotalWeight += action.payload.weight;
 
             console.log(state.TotalProperties.TotalCallories, state.TotalProperties.TotalWeight)
-        },
-        deleteProduct(state, action: PayloadAction<number>) {
-                state.TotalProperties.TotalWeight -= state.productList.find((product) => product.id === action.payload)?.weight || 0;
-                state.TotalProperties.TotalCallories -= state.productList.find((product) => product.id === action.payload)?.product.foodNutrients.find((nutrient)=> nutrient.nutrientName.includes('Energy') && nutrient.unitName.includes('KCAL'))?.value || 0;
-                state.productList = state.productList.filter((product) => product.id !== action.payload);
+        }, deleteProduct(state, action: PayloadAction<number>) {
+            let needDeleteProduct = state.productList.find((product) => product.id === action.payload)
+            const calculetedCallories = needDeleteProduct?.product.foodNutrients.find((nutrient) => nutrient.nutrientName.includes('Energy') && nutrient.unitName.includes('KCAL'))
+            state.TotalProperties.TotalCallories -= calculetedCallories ? (calculetedCallories.value * (needDeleteProduct?.weight || 0) / 100) : 0;
+            state.TotalProperties.TotalCallories = Math.floor(state.TotalProperties.TotalCallories);
+            state.TotalProperties.TotalWeight -= needDeleteProduct?.weight || 0;
+            state.productList = state.productList.filter((product) => product.id !== action.payload);
 
         },
+
         changeProductName(state, action: PayloadAction<string>) {
             state.productName = action.payload;
         },
 
+        calculateNutrients(state, action: PayloadAction<void>) {
+              state.Nutrients = [];
+            for (let i = 0; i < state.productList.length; i++) {
+                const filteredNutrients = state.productList[i].product.foodNutrients.filter((nutrient) => {
+
+                    return  nutrientNames.includes(nutrient.nutrientName)
+                })
+                console.log(filteredNutrients)
+                if (filteredNutrients.length > 0) {
+                    for(let j = 0; j < filteredNutrients.length; j++){
+                        if(state.Nutrients.find((nutrient)=> nutrient.name === filteredNutrients[j].nutrientName)){
+                            state.Nutrients[j].value += Math.floor(filteredNutrients[j].value * state.productList[i].weight / 100);
+                        }else{
+                            state.Nutrients.push({
+                                name: filteredNutrients[j].nutrientName,
+
+                                value: Math.floor(filteredNutrients[j].value * state.productList[i].weight / 100),
+                                unitName: filteredNutrients[j].unitName,
+                                id: filteredNutrients[j].nutrientId
+
+                            } as nutrientsType)
+                        }
+                        console.log(i)
+                    }
+
+
+            }
+        }
     }
+}
 });
-export const {changeProductName, deleteProduct, addProduct} = productSlice.actions;
+export const {calculateNutrients, changeProductName, deleteProduct, addProduct} = productSlice.actions;
 export default productSlice.reducer;
