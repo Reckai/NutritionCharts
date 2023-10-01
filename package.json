@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/node": "20.5.9",
+
     "@reduxjs/toolkit": "^1.9.5",
 
     "@tanstack/react-query": "^4.35.0",
-    "@types/node": "20.5.7",
+
+
 
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
