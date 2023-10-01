@@ -23,7 +23,6 @@ const ProductInput = () => {
 
 
     const onClickOnButton = () => {
-        console.log(productName, weight)
         if (  weight !== '' && data && active) {
 
             dispatch(changeProductName(''));
@@ -44,7 +43,7 @@ const    onSelectProduct =(id: number)=>{
     }
     const [asd, setAsd] = React.useState<string>('grid-cols-4')
     React.useEffect(() => {
-        console.log(data)
+
         setSkip(true);
 
         if(data && data.foods.length > 4){
@@ -54,6 +53,7 @@ const    onSelectProduct =(id: number)=>{
             setAsd (`grid-cols-${data.foods.length}`)
         }
         }, [data])
+    console.log(data?.foods)
 
     return <div className='ml-4 flex '>
         <div className=" flex flex-col  ">

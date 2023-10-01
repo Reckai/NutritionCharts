@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Food} from "@/app/utils/models";
-import {log} from "util";
+
 
 type productSliceType = {
     id: number; product: Food; weight: number;
@@ -17,8 +17,6 @@ const nutrientNames = [
     "Nitrogen",
     "Total lipid (fat)",
     "Manganese, Mn",
-    "Ash",
-    "Water",
     "Calcium, Ca",
     "Protein",
     "Carbohydrate, by difference"
@@ -63,7 +61,7 @@ export const productSlice = createSlice({
             state.TotalProperties.TotalCallories += Math.floor(neededProduct ? neededProduct.value * action.payload.weight / 100 : 0);
             state.TotalProperties.TotalWeight += action.payload.weight;
 
-            console.log(state.TotalProperties.TotalCallories, state.TotalProperties.TotalWeight)
+
         }, deleteProduct(state, action: PayloadAction<number>) {
             let needDeleteProduct = state.productList.find((product) => product.id === action.payload)
             const calculetedCallories = needDeleteProduct?.product.foodNutrients.find((nutrient) => nutrient.nutrientName.includes('Energy') && nutrient.unitName.includes('KCAL'))
@@ -85,7 +83,7 @@ export const productSlice = createSlice({
 
                     return  nutrientNames.includes(nutrient.nutrientName)
                 })
-                console.log(filteredNutrients)
+
                 if (filteredNutrients.length > 0) {
                     for(let j = 0; j < filteredNutrients.length; j++){
                         if(state.Nutrients.find((nutrient)=> nutrient.name === filteredNutrients[j].nutrientName)){
@@ -100,7 +98,6 @@ export const productSlice = createSlice({
 
                             } as nutrientsType)
                         }
-                        console.log(i)
                     }
 
 
