@@ -8,6 +8,7 @@ import {useAppDispatch, useAppSelector} from "@/app/utils/hooks/redux";
 import GenderAndAgeSelect from "@/app/components/GenderAndAgeSelect/GenderAndAgeSelect";
 import {deleteProduct, calculateNutrients} from "@/app/reduxTK/redusers/ProductReducer/ProductSlice";
 import StandartButton from "@/app/ui/Button/StandartButton";
+import Chart from "@/app/components/Chart/Chart";
 
 export default function Home() {
 
@@ -58,26 +59,14 @@ export default function Home() {
                         )
                     })}
                 </section>
-                <StandartButton params={'Primary'}  onClick={()=>dispatch(calculateNutrients())}> asdasd</StandartButton>
-                <section
-                    className=' ml-9   bg-white rounded-[20px] w-[206px]  px-[50px]  my-2.5  '>
-                    {Nutrients.map((nutrient) => {
-                        console.log(nutrient.id)
-                        return (<div key={nutrient.id} className='flex place-content-around items-center gap-1  my-2.5'>
-                                <h1 className='text-black text-base'>
-                                    {nutrient.name }
-                                </h1>
-                                <div className='flex items-center'> {/* Обертка для веса и "г" */}
-                                    <h1 className='text-base text-black mr-1'>
-                                        {" " + nutrient.value}</h1>
-                                    <span className='text-base text-black'>{nutrient.unitName}</span>
-                                </div>
+                {
+                    productList.length > 0 && <StandartButton onClick={() => dispatch(calculateNutrients())} params=" px-5 py-4 w-48 px-12 h-14 ">Подтвердить</StandartButton>
+                }
+               <div>
+                   {
+                      Nutrients.length > 0 && <Chart/> }
 
-                            </div>
-
-                        )
-                    })}
-                </section>
+               </div>
                 <iframe
                     className="rounded-lg"
                     src="https://open.spotify.com/embed/track/6jia2kwUEpsupSDRKy8DnM?utm_source=generator&theme=0"
