@@ -1,4 +1,4 @@
-import {combineReducers, configureStore, } from "@reduxjs/toolkit";
+import {combineReducers, configureStore, PreloadedState,} from "@reduxjs/toolkit";
 import productReducer from "@/app/reduxTK/redusers/ProductReducer/ProductSlice";
 import UserReducer from "@/app/reduxTK/redusers/UserReducer/UserSlice";
 import {ProductsSearchApi} from "@/app/reduxTK/redusers/ProductSearch/ProductSearch";
@@ -8,10 +8,11 @@ const rootReducer = combineReducers({
     [ProductsSearchApi.reducerPath]: ProductsSearchApi.reducer,
 });
 
-export const setupStore = ()=>{
+export const setupStore = (preloadedState?: PreloadedState<RootState>)=>{
     return configureStore({
         reducer: rootReducer,
-          middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(ProductsSearchApi.middleware),
+        preloadedState,
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(ProductsSearchApi.middleware),
         devTools:/* eneble devtools */ true
 
     });

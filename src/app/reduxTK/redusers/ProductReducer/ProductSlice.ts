@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Food} from "@/app/utils/models";
 
 
+
 type productSliceType = {
     id: number; product: Food; weight: number;
 }
@@ -11,6 +12,13 @@ const nutrientNames = [
     "Phosphorus, P",
     "Potassium, K",
     "Cholesterol",
+    "Vitamin B-6",
+    "Vitamin B-12",
+    "Vitamin A",
+    "Vitamin C",
+    "Vitamin D",
+    "Vitamin E",
+    "Vitamin K",
     "Sodium, Na",
     "Zinc, Zn",
     "Copper, Cu",
@@ -60,7 +68,7 @@ export const productSlice = createSlice({
 
             state.TotalProperties.TotalCallories += Math.floor(neededProduct ? neededProduct.value * action.payload.weight / 100 : 0);
             state.TotalProperties.TotalWeight += action.payload.weight;
-
+            console.log(state.productList.slice())
 
         }, deleteProduct(state, action: PayloadAction<number>) {
             let needDeleteProduct = state.productList.find((product) => product.id === action.payload)
@@ -87,12 +95,12 @@ export const productSlice = createSlice({
                 if (filteredNutrients.length > 0) {
                     for(let j = 0; j < filteredNutrients.length; j++){
                         if(state.Nutrients.find((nutrient)=> nutrient.name === filteredNutrients[j].nutrientName)){
-                            state.Nutrients[j].value += Math.floor(filteredNutrients[j].value * state.productList[i].weight / 100);
+                            state.Nutrients[j].value += Number((filteredNutrients[j].value * state.productList[i].weight / 100).toFixed(3));
                         }else{
                             state.Nutrients.push({
                                 name: filteredNutrients[j].nutrientName,
 
-                                value: Math.floor(filteredNutrients[j].value * state.productList[i].weight / 100),
+                                value: Number((filteredNutrients[j].value * state.productList[i].weight / 100).toFixed(3)),
                                 unitName: filteredNutrients[j].unitName,
                                 id: filteredNutrients[j].nutrientId
 
@@ -103,6 +111,8 @@ export const productSlice = createSlice({
 
             }
         }
+            console.log(state.Nutrients.slice());
+            const NormalizedNutrients = state.Nutrients.map((nutrient) => {})
     }
 }
 });
