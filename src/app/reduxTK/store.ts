@@ -2,10 +2,12 @@ import {combineReducers, configureStore, PreloadedState,} from "@reduxjs/toolkit
 import productReducer from "@/app/reduxTK/redusers/ProductReducer/ProductSlice";
 import UserReducer from "@/app/reduxTK/redusers/UserReducer/UserSlice";
 import {ProductsSearchApi} from "@/app/reduxTK/redusers/ProductSearch/ProductSearch";
+import ChartSlice from "@/app/reduxTK/redusers/ChartReducer/ChartSlice";
 
 const rootReducer = combineReducers({
   products: productReducer, user: UserReducer,
     [ProductsSearchApi.reducerPath]: ProductsSearchApi.reducer,
+    chart: ChartSlice,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>)=>{

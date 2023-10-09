@@ -3,41 +3,12 @@ import {Food} from "@/app/utils/models";
 
 
 
-type productSliceType = {
+export type productSliceType = {
     id: number; product: Food; weight: number;
 }
-const nutrientNames = [
-    "Iron, Fe",
-    "Magnesium, Mg",
-    "Phosphorus, P",
-    "Potassium, K",
-    "Cholesterol",
-    "Vitamin B-6",
-    "Vitamin B-12",
-    "Vitamin A",
-    "Vitamin C",
-    "Vitamin D",
-    "Vitamin E",
-    "Vitamin K",
-    "Sodium, Na",
-    "Zinc, Zn",
-    "Copper, Cu",
-    "Nitrogen",
-    "Total lipid (fat)",
-    "Manganese, Mn",
-    "Calcium, Ca",
-    "Protein",
-    "Carbohydrate, by difference"
-];
 
 
 
-type nutrientsType = {
-    name: string;
-    value: number;
-    unitName: string;
-    id: number;
-}
 
 interface Iproducts {
     productName: string | undefined;
@@ -45,7 +16,7 @@ interface Iproducts {
     TotalProperties: {
         TotalCallories: number; TotalWeight: number; [key: string]: number;
     }
-    Nutrients: nutrientsType[]
+
 
 }
 
@@ -54,7 +25,7 @@ const initialState: Iproducts = {
     TotalProperties: {
         TotalCallories: 0, TotalWeight: 0,
     }
-    , Nutrients: []
+    ,
 }
 
 export const productSlice = createSlice({
@@ -84,37 +55,8 @@ export const productSlice = createSlice({
             state.productName = action.payload;
         },
 
-        calculateNutrients(state, action: PayloadAction<void>) {
-              state.Nutrients = [];
-            for (let i = 0; i < state.productList.length; i++) {
-                const filteredNutrients = state.productList[i].product.foodNutrients.filter((nutrient) => {
 
-                    return  nutrientNames.includes(nutrient.nutrientName)
-                })
-
-                if (filteredNutrients.length > 0) {
-                    for(let j = 0; j < filteredNutrients.length; j++){
-                        if(state.Nutrients.find((nutrient)=> nutrient.name === filteredNutrients[j].nutrientName)){
-                            state.Nutrients[j].value += Number((filteredNutrients[j].value * state.productList[i].weight / 100).toFixed(3));
-                        }else{
-                            state.Nutrients.push({
-                                name: filteredNutrients[j].nutrientName,
-
-                                value: Number((filteredNutrients[j].value * state.productList[i].weight / 100).toFixed(3)),
-                                unitName: filteredNutrients[j].unitName,
-                                id: filteredNutrients[j].nutrientId
-
-                            } as nutrientsType)
-                        }
-                    }
-
-
-            }
-        }
-            console.log(state.Nutrients.slice());
-            const NormalizedNutrients = state.Nutrients.map((nutrient) => {})
-    }
 }
 });
-export const {calculateNutrients, changeProductName, deleteProduct, addProduct} = productSlice.actions;
+export const { changeProductName, deleteProduct, addProduct} = productSlice.actions;
 export default productSlice.reducer;

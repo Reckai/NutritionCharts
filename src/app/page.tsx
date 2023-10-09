@@ -5,33 +5,23 @@ import ProductInput from "@/app/components/ProductInput/ProductInput";
 
 
 import {useAppDispatch, useAppSelector} from "@/app/utils/hooks/redux";
-import GenderAndAgeSelect from "@/app/components/GenderAndAgeSelect/GenderAndAgeSelect";
-import {deleteProduct, calculateNutrients} from "@/app/reduxTK/redusers/ProductReducer/ProductSlice";
+
+import {deleteProduct} from "@/app/reduxTK/redusers/ProductReducer/ProductSlice";
 import StandartButton from "@/app/ui/Button/StandartButton";
 import Chart from "@/app/components/Chart/Chart";
+import {calculateAndNormalizeNutrientsData} from "@/app/reduxTK/redusers/ChartReducer/ChartSlice";
 
 export default function Home() {
 
     const dispatch = useAppDispatch();
     const user = useAppSelector(state => state.user);
-    const {productList, TotalProperties, Nutrients, } = useAppSelector(state => state.products);
-
+    const {productList, TotalProperties } = useAppSelector(state => state.products);
+    const {Nutrients} = useAppSelector(state => state.chart);
     return (<main   className='flex'>
             <div  className='flex flex-col'>
                 <div className='flex'>
                     <div>
-                        <GenderAndAgeSelect/>
-                        {
-                            user && <h1 className='text-2xl font-bold my-2.5 '> {user.gender}, {user.age}</h1>
 
-                        }
-                        {
-                            <h1>
-                                {TotalProperties.TotalCallories} ккал &nbsp;
-
-                                {TotalProperties.TotalWeight} вес
-                            </h1>
-                        }
                     </div>
                     <ProductInput/>
                 </div>
@@ -47,6 +37,7 @@ export default function Home() {
                                     <h1 className='text-base text-black mr-1'>
                                         {" " + product.weight}</h1>
                                     <span className='text-base text-black'>г</span>
+
                                 </div>
                                 <button
                                     className={`w-32 h-11 rounded-full px-5 bg-call-to-action text-white ml-1.5 flex items-center justify-center`}
@@ -60,11 +51,22 @@ export default function Home() {
                     })}
                 </section>
                 {
-                    productList.length > 0 && <StandartButton onClick={() => dispatch(calculateNutrients())} params=" px-5 py-4 w-48 px-12 h-14 ">Подтвердить</StandartButton>
+                    productList.length > 0 && <StandartButton onClick={() => dispatch(calculateAndNormalizeNutrientsData(productList))} params=" px-5 py-4 w-48 px-12 h-14 ">Подтвердить</StandartButton>
                 }
                <div>
                    {
-                      Nutrients.length > 0 && <Chart/> }
+                      Nutrients.length > 0 && (
+
+                          <div>
+                              {
+                                  <h1>
+                                      {TotalProperties.TotalCallories} ккал &nbsp;
+
+                                      {TotalProperties.TotalWeight} вес
+                                  </h1>
+                              }
+                              <Chart/>
+                          </div>) }
 
                </div>
                 <iframe
