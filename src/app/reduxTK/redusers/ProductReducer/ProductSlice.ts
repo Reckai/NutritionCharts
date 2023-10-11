@@ -11,7 +11,9 @@ export type productSliceType = {
 
 
 interface Iproducts {
-    productName: string | undefined;
+    productName: string ;
+    productWeight: string;
+    ActiveProduct: number | null;
     productList: productSliceType[];
     TotalProperties: {
         TotalCallories: number; TotalWeight: number; [key: string]: number;
@@ -21,7 +23,9 @@ interface Iproducts {
 }
 
 const initialState: Iproducts = {
+    ActiveProduct: null,
     productList: [], productName: '',
+    productWeight: '0',
     TotalProperties: {
         TotalCallories: 0, TotalWeight: 0,
     }
@@ -53,10 +57,16 @@ export const productSlice = createSlice({
 
         changeProductName(state, action: PayloadAction<string>) {
             state.productName = action.payload;
+            console.log(state.productName)
         },
-
+        setProductWeight(state, action: PayloadAction<string>) {
+            state.productWeight = action.payload;
+        },
+        setActiveProduct(state, action: PayloadAction<number>) {
+            state.ActiveProduct = action.payload;
+        }
 
 }
 });
-export const { changeProductName, deleteProduct, addProduct} = productSlice.actions;
+export const { changeProductName,setActiveProduct, setProductWeight, deleteProduct, addProduct} = productSlice.actions;
 export default productSlice.reducer;

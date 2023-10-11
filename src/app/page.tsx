@@ -10,11 +10,11 @@ import {deleteProduct} from "@/app/reduxTK/redusers/ProductReducer/ProductSlice"
 import StandartButton from "@/app/ui/Button/StandartButton";
 import Chart from "@/app/components/Chart/Chart";
 import {calculateAndNormalizeNutrientsData} from "@/app/reduxTK/redusers/ChartReducer/ChartSlice";
+import Header from "@/app/blocks/Header/Header";
 
 export default function Home() {
 
     const dispatch = useAppDispatch();
-    const user = useAppSelector(state => state.user);
     const {productList, TotalProperties } = useAppSelector(state => state.products);
     const {Nutrients} = useAppSelector(state => state.chart);
     return (<main   className='flex'>
@@ -23,7 +23,7 @@ export default function Home() {
                     <div>
 
                     </div>
-                    <ProductInput/>
+                    <Header/>
                 </div>
 
                 <section
