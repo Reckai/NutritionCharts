@@ -143,13 +143,21 @@ const initialState: ChartConfig = {
         name: "Vitamin A", info: {
             "RecommendedDailyIntake": "900", "OverDosage": "9000"
         },
-    }, {
+    },{
+        name: 'Total lipid (fat)',
+        info: {
+            'RecommendedDailyIntake': '1',
+            'OverDosage': '4',
+        }
+        },
+
+        {
         name: "Manganese, Mn", info: {
             "RecommendedDailyIntake": "2.3", "OverDosage": "9.2"
         },
     }, {
         name: "Protein", info: {
-            "RecommendedDailyIntake": "56", "OverDosage": "224"
+            "RecommendedDailyIntake": "1.7", "OverDosage": "5"
         },
     },]
 };
@@ -189,9 +197,11 @@ const ChartSlice = createSlice({
 
                              const nutrientValue: number = Number((filteredNutrients[j].value * productList[i].weight / 100).toFixed(3));
                              let chartValue = 0;
-                                 if(neededNutrient && neededNutrient.name === 'Protein'){
-                                     chartValue =  comparisons(nutrientValue, {min: neededNutrient ?   ( 1.7 * userWeight) : 0, max: neededNutrient ?  (4 * userWeight) :  0 })
-                            }else{
+                                 if(neededNutrient && (neededNutrient.name === 'Protein' || neededNutrient.name === 'Total lipid (fat)')  ){
+                                     chartValue =  comparisons(nutrientValue, {min: neededNutrient ?   ( Number(neededNutrient.info.RecommendedDailyIntake) *  userWeight) : 0, max: neededNutrient ?  (Number(neededNutrient.info.OverDosage) * userWeight) :  0 })
+                                 }
+
+                                 else{
                                 chartValue =  comparisons(nutrientValue, {min: neededNutrient ?   Number(neededNutrient.info.RecommendedDailyIntake) : 0, max: neededNutrient ?  Number(neededNutrient.info.OverDosage) :  0 })
                             }
 
