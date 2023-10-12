@@ -2,51 +2,34 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Food} from "@/app/utils/models";
 
 
-type productSliceType = {
+
+export type productSliceType = {
     id: number; product: Food; weight: number;
 }
-const nutrientNames = [
-    "Iron, Fe",
-    "Magnesium, Mg",
-    "Phosphorus, P",
-    "Potassium, K",
-    "Cholesterol",
-    "Sodium, Na",
-    "Zinc, Zn",
-    "Copper, Cu",
-    "Nitrogen",
-    "Total lipid (fat)",
-    "Manganese, Mn",
-    "Calcium, Ca",
-    "Protein",
-    "Carbohydrate, by difference"
-];
 
 
 
-type nutrientsType = {
-    name: string;
-    value: number;
-    unitName: string;
-    id: number;
-}
 
 interface Iproducts {
-    productName: string | undefined;
+    productName: string ;
+    productWeight: string;
+    ActiveProduct: number | null;
     productList: productSliceType[];
     TotalProperties: {
         TotalCallories: number; TotalWeight: number; [key: string]: number;
     }
-    Nutrients: nutrientsType[]
+
 
 }
 
 const initialState: Iproducts = {
+    ActiveProduct: null,
     productList: [], productName: '',
+    productWeight: '0',
     TotalProperties: {
         TotalCallories: 0, TotalWeight: 0,
     }
-    , Nutrients: []
+    ,
 }
 
 export const productSlice = createSlice({
@@ -60,7 +43,7 @@ export const productSlice = createSlice({
 
             state.TotalProperties.TotalCallories += Math.floor(neededProduct ? neededProduct.value * action.payload.weight / 100 : 0);
             state.TotalProperties.TotalWeight += action.payload.weight;
-
+            console.log(state.productList.slice())
 
         }, deleteProduct(state, action: PayloadAction<number>) {
             let needDeleteProduct = state.productList.find((product) => product.id === action.payload)
@@ -74,37 +57,16 @@ export const productSlice = createSlice({
 
         changeProductName(state, action: PayloadAction<string>) {
             state.productName = action.payload;
+            console.log(state.productName)
         },
-
-        calculateNutrients(state, action: PayloadAction<void>) {
-              state.Nutrients = [];
-            for (let i = 0; i < state.productList.length; i++) {
-                const filteredNutrients = state.productList[i].product.foodNutrients.filter((nutrient) => {
-
-                    return  nutrientNames.includes(nutrient.nutrientName)
-                })
-
-                if (filteredNutrients.length > 0) {
-                    for(let j = 0; j < filteredNutrients.length; j++){
-                        if(state.Nutrients.find((nutrient)=> nutrient.name === filteredNutrients[j].nutrientName)){
-                            state.Nutrients[j].value += Math.floor(filteredNutrients[j].value * state.productList[i].weight / 100);
-                        }else{
-                            state.Nutrients.push({
-                                name: filteredNutrients[j].nutrientName,
-
-                                value: Math.floor(filteredNutrients[j].value * state.productList[i].weight / 100),
-                                unitName: filteredNutrients[j].unitName,
-                                id: filteredNutrients[j].nutrientId
-
-                            } as nutrientsType)
-                        }
-                    }
-
-
-            }
+        setProductWeight(state, action: PayloadAction<string>) {
+            state.productWeight = action.payload;
+        },
+        setActiveProduct(state, action: PayloadAction<number>) {
+            state.ActiveProduct = action.payload;
         }
-    }
+
 }
 });
-export const {calculateNutrients, changeProductName, deleteProduct, addProduct} = productSlice.actions;
+export const { changeProductName,setActiveProduct, setProductWeight, deleteProduct, addProduct} = productSlice.actions;
 export default productSlice.reducer;
