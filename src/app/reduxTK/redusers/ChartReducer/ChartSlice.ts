@@ -161,9 +161,13 @@ const ChartSlice = createSlice({
     initialState,
     reducers: {
 
-        calculateAndNormalizeNutrientsData(state, action: PayloadAction<productSliceType[]>) {
+        calculateAndNormalizeNutrientsData(state, action: PayloadAction<{
+            productList: productSliceType[];
+            userWeight: number;
+        }>) {
             state.Nutrients = [];
-            const productList = action.payload;
+            const productList = action.payload.productList;
+            const userWeight = action.payload.userWeight;
             for (let i = 0; i < productList.length; i++) {
                 const filteredNutrients = productList[i].product.foodNutrients.filter((nutrient) => {
                     const nutrientNames = state.NormForNutrients.map((nutrient) => nutrient.name);
@@ -173,11 +177,24 @@ const ChartSlice = createSlice({
                 if (filteredNutrients.length > 0) {
                     for(let j = 0; j < filteredNutrients.length; j++){
                         if(state.Nutrients.find((nutrient)=> nutrient.name === filteredNutrients[j].nutrientName)){
+
                             state.Nutrients[j].value += Number((filteredNutrients[j].value * productList[i].weight / 100).toFixed(3));
+
+
                         }else{
+                            if(filteredNutrients[j].value === undefined){
+                                return ;
+                            }
                              const neededNutrient = state.NormForNutrients.find((nutrient) => nutrient.name === filteredNutrients[j].nutrientName);
-                            const nutrientValue: number = Number((filteredNutrients[j].value * productList[i].weight / 100).toFixed(3));
-                            const chartValue: number =  comparisons(nutrientValue, {min: neededNutrient ?   Number(neededNutrient.info.RecommendedDailyIntake) : 0, max: neededNutrient ?  Number(neededNutrient.info.OverDosage) :  0 })
+
+                             const nutrientValue: number = Number((filteredNutrients[j].value * productList[i].weight / 100).toFixed(3));
+                             let chartValue = 0;
+                                 if(neededNutrient && neededNutrient.name === 'Protein'){
+                                     chartValue =  comparisons(nutrientValue, {min: neededNutrient ?   ( 1.7 * userWeight) : 0, max: neededNutrient ?  (4 * userWeight) :  0 })
+                            }else{
+                                chartValue =  comparisons(nutrientValue, {min: neededNutrient ?   Number(neededNutrient.info.RecommendedDailyIntake) : 0, max: neededNutrient ?  Number(neededNutrient.info.OverDosage) :  0 })
+                            }
+
                             state.Nutrients.push({
                                 name: filteredNutrients[j].nutrientName,
 

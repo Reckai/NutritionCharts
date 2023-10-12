@@ -43,7 +43,7 @@ export const productSlice = createSlice({
 
             state.TotalProperties.TotalCallories += Math.floor(neededProduct ? neededProduct.value * action.payload.weight / 100 : 0);
             state.TotalProperties.TotalWeight += action.payload.weight;
-            console.log(state.productList.slice())
+
 
         }, deleteProduct(state, action: PayloadAction<number>) {
             let needDeleteProduct = state.productList.find((product) => product.id === action.payload)
@@ -57,7 +57,6 @@ export const productSlice = createSlice({
 
         changeProductName(state, action: PayloadAction<string>) {
             state.productName = action.payload;
-            console.log(state.productName)
         },
         setProductWeight(state, action: PayloadAction<string>) {
             state.productWeight = action.payload;

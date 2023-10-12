@@ -11,12 +11,15 @@ import StandartButton from "@/app/ui/Button/StandartButton";
 import Chart from "@/app/components/Chart/Chart";
 import {calculateAndNormalizeNutrientsData} from "@/app/reduxTK/redusers/ChartReducer/ChartSlice";
 import Header from "@/app/blocks/Header/Header";
+import {getUserWeight} from "@/app/reduxTK/redusers/UserReducer/UserWeightSelector";
 
 export default function Home() {
 
     const dispatch = useAppDispatch();
     const {productList, TotalProperties } = useAppSelector(state => state.products);
     const {Nutrients} = useAppSelector(state => state.chart);
+    const userWeight = useAppSelector(state => state.user.userWeight);
+    console.log(userWeight)
     return (<main   className='flex'>
             <div  className='flex flex-col'>
                 <div className='flex'>
@@ -51,7 +54,7 @@ export default function Home() {
                     })}
                 </section>
                 {
-                    productList.length > 0 && <StandartButton onClick={() => dispatch(calculateAndNormalizeNutrientsData(productList))} params=" px-5 py-4 w-48 px-12 h-14 ">Подтвердить</StandartButton>
+                    productList.length > 0 && <StandartButton onClick={() => dispatch(calculateAndNormalizeNutrientsData({ productList: productList , userWeight: Number(userWeight)}))} params=" px-5 py-4 w-48 px-12 h-14 ">Подтвердить</StandartButton>
                 }
                <div>
                    {

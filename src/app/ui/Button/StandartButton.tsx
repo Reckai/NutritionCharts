@@ -12,7 +12,7 @@ type StandardButtonProps = {
 }
 
 
-const StandardButton = ({params, img, children, onClick}: StandardButtonProps) => {
+const StandartButton = ({params, img, children, onClick}: StandardButtonProps) => {
     let buttonClasses: params | string = '';
     let textClasses = '';
     const clickHandler = ( ) => {
@@ -44,4 +44,4 @@ const StandardButton = ({params, img, children, onClick}: StandardButtonProps) =
     );
 }
 
-export default StandardButton;
+export default StandartButton;

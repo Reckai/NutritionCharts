@@ -35,7 +35,7 @@ export const ProductList = ({skip}: ProductListProps) => {
             setAsd(`grid-cols-${data.foods.length}`)
         }
     }, [data])
-    console.log(skip)
+
     return (
 
         <div className={`grid  ${asd}   w-1/2    rounded-[20px] shadow-gray-950 bg-neutral-700    `}>
@@ -47,7 +47,7 @@ export const ProductList = ({skip}: ProductListProps) => {
                 Загрузка...
             </div>)  : data && data.foods.length === 0 ? (<div className={"overflow-x-hidden bg-call-to-action text-white   m-2   rounded-[8px] p-1"}>
                 Таких продуктов не найдено
-            </div>): data && data.foods ? (data.foods.map((product: Food) => {
+            </div>): data && data.foods.length > 0 ? (data.foods.map((product: Food) => {
                 return (<button
                     key={product.fdcId}
                     onClick={() => onSelectProduct(product.fdcId)}

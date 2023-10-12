@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import StandardButton from "@/app/ui/Button/StandartButton";
+import StandartButton from "@/app/ui/Button/StandartButton";
 import {useAppDispatch, useAppSelector} from "@/app/utils/hooks/redux";
 import {addProduct, changeProductName, setProductWeight} from "@/app/reduxTK/redusers/ProductReducer/ProductSlice";
 import {Food, FoodSearchResponse} from "@/app/utils/models";
@@ -15,13 +15,13 @@ const ConfirmationButton = ({skip}:ConfirmationButtonProps) => {
     const dispatch = useAppDispatch();
 
     const addProductToStore = () => {
+
         dispatch(addProduct({id: ActiveProduct ? ActiveProduct : 0 , product: data?.foods.find((product: Food) => product.fdcId === ActiveProduct) as Food, weight: Number(productWeight)}));
 
     }
     const handleValidInput = useCallback((active: number, data: FoodSearchResponse, weight: string ) => {
         addProductToStore();
-        dispatch(changeProductName(' '));
-        dispatch(setProductWeight(' '));
+
     }, [dispatch, ActiveProduct, data, productWeight])
 
     const handleNegativeWeight = useCallback(() => {
@@ -54,8 +54,8 @@ const ConfirmationButton = ({skip}:ConfirmationButtonProps) => {
 
 
     return (<div>
-            <StandardButton onClick={onClickOnButton}
-                            params=" px-5 ml-3 py-4 w-48 px-12 h-14 ">Подтвердить</StandardButton>
+            <StandartButton onClick={onClickOnButton}
+                            params=" px-5 ml-3 py-4 w-48 px-12 h-14 ">Подтвердить</StandartButton>
 
         </div>);
 };
