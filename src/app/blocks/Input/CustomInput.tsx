@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, {memo} from 'react';
 
 
 type CustomInputProps = {
@@ -8,32 +8,17 @@ type CustomInputProps = {
     value?: string;
     type?: 'text' | 'number';
 }
-const CustomInput = ({placeholder, changeHandlerFunction, value,  type = 'text'} : CustomInputProps ) => {
+const CustomInput = memo(({placeholder, changeHandlerFunction, value,  type = 'text'} : CustomInputProps ) => {
     const [inputValue, setInputValue] = React.useState<string>('');
 
     React.useEffect(() => {
         setInputValue(value || '');
     }, [value])
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-    changeHandlerFunction(e);
+        setInputValue(e.target.value);
+        changeHandlerFunction(e);
     }
-    const onClickHandler = () => {
-        if(inputValue !== '') {
 
-        }else {
-            alert('Пожалуйста, введите продукт')
-        }
-        setInputValue('');
-    }
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' && inputValue !== '') {
-            setInputValue('');
-        }else if(e.key === 'Enter' && inputValue === ''){
-            alert('Пожалуйста, введите продукт')
-        }
-
-    }
     return (
         <div className="w-52 my-2.5 h-14 pl-5 py-4 bg-white flex rounded-[20px] justify-start items-center gap-3 inline-flex">
             <input
@@ -45,8 +30,7 @@ const CustomInput = ({placeholder, changeHandlerFunction, value,  type = 'text'}
             />
         </div>
     );
-};
-
-
+}, )
+CustomInput.displayName = 'CustomInput';
 
 export default CustomInput;
