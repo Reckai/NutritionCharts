@@ -9,10 +9,11 @@ type StandardButtonProps = {
     img?: boolean;
     params: params | string;
     onClick: () => void;
+    disabled?: boolean;
 }
 
 
-const StandartButton = ({params, img, children, onClick}: StandardButtonProps) => {
+const StandartButton = ({params, img, children, onClick, disabled}: StandardButtonProps) => {
     let buttonClasses: params | string = '';
     let textClasses = '';
     const clickHandler = ( ) => {
@@ -33,7 +34,7 @@ const StandartButton = ({params, img, children, onClick}: StandardButtonProps) =
     return(
 
 
-        <button onClick={clickHandler}  className={`right-8 bg-call-to-action rounded-[20px] gap-3 justify-center items-center inline-flex hover:scale-[0.95] transition-all duration-200 ${buttonClasses}`}>
+        <button onClick={clickHandler}  className={ ` ${disabled ? 'disabled:' : null }  right-8 bg-call-to-action rounded-[20px] gap-3 justify-center items-center inline-flex hover:scale-[0.95] transition-all duration-200 ${buttonClasses}`}>
             {
                 img && <Image src={Rocket} alt='button'
                                     className="w-5 h-5 relative"

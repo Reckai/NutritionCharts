@@ -3,16 +3,21 @@ import CustomInput from "@/app/blocks/Input/CustomInput";
 import {useAppDispatch} from "@/app/utils/hooks/redux";
 import debounce from "lodash.debounce";
 import {changeProductName} from "@/app/reduxTK/redusers/ProductReducer/ProductSlice";
+import {useNameValidate} from "@/app/utils/hooks/useNameValidate";
 
 
 interface ProductInput1Props {
-    skipController: () => void
+    skipController: () => void;
+    validationHandler: (arg0: boolean) => void;
+
 }
 
-export const ProductInput :  React.FC<ProductInput1Props> = ({ skipController} : ProductInput1Props ) => {
+export const ProductInput :  React.FC<ProductInput1Props> = ({ skipController, validationHandler} : ProductInput1Props ) => {
 
 
     const[inputValue, setInputValue] = React.useState<string>('');
+    const [isValid, setIsValid] = React.useState<boolean>(false);
+    const validate = useNameValidate()
     const dispatch = useAppDispatch();
 
 
@@ -24,7 +29,13 @@ export const ProductInput :  React.FC<ProductInput1Props> = ({ skipController} :
     const changeProductHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
         updateSearchValue(e.target.value);
+        const isProductValid = validate(e.target.value)
+        setIsValid(isProductValid)
     }
+    React.useEffect(()=>{
+        validationHandler(isValid)
+
+    },[isValid])
 
 
     return (

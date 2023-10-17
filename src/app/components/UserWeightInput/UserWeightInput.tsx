@@ -4,24 +4,38 @@ import {useAppDispatch} from "@/app/utils/hooks/redux";
 
 import {setUserWeight} from "@/app/reduxTK/redusers/UserReducer/UserSlice";
 import debounce from "lodash.debounce";
+import {useWeightValidate} from "@/app/utils/hooks/useWeightValidate";
 
-
-const UserWeightInput: React.FC = () => {
+type formProps = {
+    validationHandler: (arg0:boolean)=>void
+}
+const UserWeightInput = ({validationHandler}:formProps)  => {
     const dispatch = useAppDispatch();
     const [weight, setWeight] = useState<string>('');
-    const changeProductWeight = debounce((e: string)=>{
+   const [isValid, setIsValid] = useState<boolean>(false);
+   const validateWeight = useWeightValidate();
+     const changeProductWeight = debounce((e: string)=>{
         dispatch(setUserWeight(e))
     },500)
 
     const chaneWeightHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setWeight(e.target.value)
         changeProductWeight(e.target.value)
+        const isWeightValid = validateWeight(e.target.value)
+        setIsValid(isWeightValid)
     }, [])
 
-
+   React.useEffect(()=>{
+       validationHandler(isValid)
+   },[isValid])
 
     return(
-        <>
+        <div className={"flex items-center"}>
+            <div >
+                <h1 className=' mr-3.5 text-center font-bold my-2.5'>
+                    Введите ваш вес
+                </h1>
+            </div>
             <CustomInput
                 type={'number'}
                 value={weight}
@@ -29,7 +43,7 @@ const UserWeightInput: React.FC = () => {
                 changeHandlerFunction={chaneWeightHandler}
             />
 
-        </>
+        </div>
     )
 };
 

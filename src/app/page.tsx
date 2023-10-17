@@ -1,17 +1,11 @@
 'use client'
 import React from "react";
-import ProductInput from "@/app/components/ProductInput/ProductInput";
-
-
-
 import {useAppDispatch, useAppSelector} from "@/app/utils/hooks/redux";
-
 import {deleteProduct} from "@/app/reduxTK/redusers/ProductReducer/ProductSlice";
 import StandartButton from "@/app/ui/Button/StandartButton";
 import Chart from "@/app/components/Chart/Chart";
 import {calculateAndNormalizeNutrientsData} from "@/app/reduxTK/redusers/ChartReducer/ChartSlice";
 import Header from "@/app/blocks/Header/Header";
-import {getUserWeight} from "@/app/reduxTK/redusers/UserReducer/UserWeightSelector";
 
 export default function Home() {
 

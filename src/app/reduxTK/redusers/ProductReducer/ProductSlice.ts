@@ -32,6 +32,8 @@ const initialState: Iproducts = {
     ,
 }
 
+//TODO: add types for actions and refactor this reducer
+
 export const productSlice = createSlice({
     name: 'products', initialState, reducers: {
         addProduct(state, action: PayloadAction<productSliceType>) {

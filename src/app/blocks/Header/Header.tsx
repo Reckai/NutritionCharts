@@ -8,6 +8,20 @@ import UserWeightInput from "@/app/components/UserWeightInput/UserWeightInput";
 export const Header: React.FC = () => {
 
     const [skip, setSkip] = useState<boolean>(true);
+    const [ isUserWeightValid, setIsUserWeightValid] = useState(false);
+    const [isProductName, setIsProductName] = useState(false);
+    const [isProductWeightValid, setIsProductWeightValid] = useState(false);
+    const handleProductWeightValidation = (isValid: boolean) => {
+        setIsProductWeightValid(isValid);
+    };
+
+    const handleProductNameValidation = (isValid: boolean) => {
+        setIsProductName(isValid);
+    };
+    const handelUserWeightValidation = (isValid: boolean) => {
+        setIsUserWeightValid(isValid);
+    }
+   const isFormValid = isUserWeightValid && isProductName && isProductWeightValid;
     const skipController = () => {
         setSkip((prev) => !prev);
         setTimeout(() => {
@@ -20,12 +34,12 @@ export const Header: React.FC = () => {
     return (
         <div className='ml-4 flex '>
             <div className=" flex flex-col  ">
-                 <UserWeightInput/>
-                <ProductInput skipController ={skipController} />
+                 <UserWeightInput  validationHandler={handelUserWeightValidation} />
+                <ProductInput validationHandler={handleProductNameValidation} skipController ={skipController} />
                 <ProductList skip={skip}/>
                 <div className="flex items-center">
-                    <WeightInput />
-                    <ConfirmationButton skip={skip}/>
+                    <WeightInput validationHandler={handleProductWeightValidation} />
+                    <ConfirmationButton isValid={isFormValid} skip={skip}/>
                 </div>
             </div>
 

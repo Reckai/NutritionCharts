@@ -7,6 +7,7 @@ type CustomInputProps = {
     changeHandlerFunction: (e: React.ChangeEvent<HTMLInputElement>) => void;
     value?: string;
     type?: 'text' | 'number';
+    onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 const CustomInput = memo(({placeholder, changeHandlerFunction, value,  type = 'text'} : CustomInputProps ) => {
     const [inputValue, setInputValue] = React.useState<string>('');
