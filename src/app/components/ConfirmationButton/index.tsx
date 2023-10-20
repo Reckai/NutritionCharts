@@ -11,8 +11,8 @@ interface ConfirmationButtonProps {
 }
 
 const ConfirmationButton = ({skip, isValid}:ConfirmationButtonProps) => {
-    const {productName, ActiveProduct , productWeight} = useAppSelector(state => state.products);
-    const {data} = useSearchProductsByNameQuery(productName as string, {skip: skip});
+    const {productName, ActiveCategory, ActiveProduct , productWeight} = useAppSelector(state => state.products);
+    const {data} = useSearchProductsByNameQuery({name: productName as string, dataType: ActiveCategory}, {skip: skip});
     const dispatch = useAppDispatch();
 
     const addProductToStore = () => {

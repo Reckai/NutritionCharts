@@ -13,7 +13,6 @@ export default function Home() {
     const {productList, TotalProperties } = useAppSelector(state => state.products);
     const {Nutrients} = useAppSelector(state => state.chart);
     const userWeight = useAppSelector(state => state.user.userWeight);
-    console.log(userWeight)
     return (<main   className='flex'>
             <div  className='flex flex-col'>
                 <div className='flex'>

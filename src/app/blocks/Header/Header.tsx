@@ -24,12 +24,15 @@ export const Header: React.FC = () => {
    const isFormValid = isUserWeightValid && isProductName && isProductWeightValid;
     const skipController = () => {
         setSkip((prev) => !prev);
-        setTimeout(() => {
-            setSkip((prev) => !prev);
 
-        }, 1000);
     }
-
+  React.useEffect(()=>{
+      if(isProductName){
+          setSkip(false);
+      }else{
+          setSkip(true);
+      }
+  },[isProductName])
 
     return (
         <div className='ml-4 flex '>

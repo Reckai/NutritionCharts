@@ -1,3 +1,5 @@
+import {Category} from "@/app/utils/consts/Categories";
+
 export interface FoodNutrient {
     number?: number;
     name?: string;
@@ -50,6 +52,10 @@ export interface Food {
 }
 
 export interface FoodSearchResponse {
+    aggregations: {
+        dataType: {
+            [key in Category]?: number
+        }};
     foodSearchCriteria: {
         query: string;
         dataType: string[];

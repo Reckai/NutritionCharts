@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Food} from "@/app/utils/models";
+import {Category} from "@/app/utils/consts/Categories";
 
 
 
@@ -11,6 +12,7 @@ export type productSliceType = {
 
 
 interface Iproducts {
+    ActiveCategory: Category;
     productName: string ;
     productWeight: string;
     ActiveProduct: number | null;
@@ -23,6 +25,7 @@ interface Iproducts {
 }
 
 const initialState: Iproducts = {
+    ActiveCategory: 'Foundation',
     ActiveProduct: null,
     productList: [], productName: '',
     productWeight: '0',
@@ -65,9 +68,12 @@ export const productSlice = createSlice({
         },
         setActiveProduct(state, action: PayloadAction<number>) {
             state.ActiveProduct = action.payload;
+        },
+        setActiveCategory(state, action: PayloadAction<Category>) {
+            state.ActiveCategory = action.payload;
         }
 
 }
 });
-export const { changeProductName,setActiveProduct, setProductWeight, deleteProduct, addProduct} = productSlice.actions;
+export const { changeProductName,setActiveCategory,setActiveProduct, setProductWeight, deleteProduct, addProduct} = productSlice.actions;
 export default productSlice.reducer;
