@@ -21,10 +21,10 @@ export const ProductInput :  React.FC<ProductInput1Props> = ({ skipController, v
     const dispatch = useAppDispatch();
 
 
-    const updateSearchValue  =debounce((e: string) => {
+    const updateSearchValue  = React.useCallback(debounce((e) => {
         dispatch(changeProductName(e));
+    }, 500), []);
 
-    }, 500)
 
     const changeProductHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);

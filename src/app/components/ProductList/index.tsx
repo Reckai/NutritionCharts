@@ -20,6 +20,7 @@ export const ProductList = ({skip}: ProductListProps) => {
   const changeCategory= (category: Category) => {
       changeActiveCategory(category)
         dispatch(setActiveCategory(category))
+
   }
     const changeActiveProduct = (id: number) => {
         dispatch(setActiveProduct(id))
@@ -63,7 +64,7 @@ export const ProductList = ({skip}: ProductListProps) => {
                     )
                 }
             </div>
-        <div className={`grid  ${asd}       rounded-[20px] shadow-gray-950 bg-neutral-700    `}>
+        <div className={`grid  ${asd}        rounded-[20px] shadow-gray-950 bg-neutral-700    `}>
 
 
             {error ? (<div className='text-red-500 rounded-xl '>

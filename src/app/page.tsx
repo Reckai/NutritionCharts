@@ -47,7 +47,7 @@ export default function Home() {
                     })}
                 </section>
                 {
-                    productList.length > 0 && <StandartButton onClick={() => dispatch(calculateAndNormalizeNutrientsData({ productList: productList , userWeight: Number(userWeight)}))} params=" px-5 py-4 w-48 px-12 h-14 ">Подтвердить</StandartButton>
+                    productList && <StandartButton onClick={() => dispatch(calculateAndNormalizeNutrientsData({ productList: productList , userWeight: Number(userWeight)}))} params=" px-5 py-4 w-48 px-12 h-14 ">Подтвердить</StandartButton>
                 }
                <div>
                    {
